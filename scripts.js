@@ -27,15 +27,18 @@ function buildURL(proj, RDID, UID) {
   }
   
 function populateProjectList() {
-    const projectList = document.getElementById('project-list');
-    projectList.innerHTML = '';
+  const projectList = document.getElementById('project-list');
+  projectList.innerHTML = '';
 
-    projects.forEach((project, index) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${project.apCode} - ${project.name}`;
-        listItem.addEventListener('click', () => openProject(index));
-        projectList.appendChild(listItem);
-    });
+  // Read projects data from local storage
+  const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+
+  projectsData.forEach((project, index) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${project.apCode} - ${project.name}`;
+    listItem.addEventListener('click', () => openProject(index));
+    projectList.appendChild(listItem);
+  });
 }
 
 function openProject(index) {
@@ -92,3 +95,36 @@ function downloadTableAsExcel(tableId, filename) {
 document.addEventListener('DOMContentLoaded', () => {
     populateProjectList();
 });
+
+const createProjectForm = document.getElementById('create-project-form');
+if (createProjectForm) {
+  createProjectForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    createNewProject();
+  });
+}
+
+function createNewProject() {
+  const apCode = document.getElementById('ap-code').value;
+  const projectName = document.getElementById('project-name').value;
+  const proj = generateRandomID();
+
+  const newProject = {
+    apCode,
+    name: projectName,
+    proj,
+    data: []
+  };
+
+  // Save the new project to local storage
+  const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+  projectsData.push(newProject);
+  localStorage.setItem('projects', JSON.stringify(projectsData));
+
+  alert('Project created successfully.');
+  window.location.href = 'projects.html';
+}
+
+function generateRandomID() {
+  return Math.random().toString(36).substr(2, 10);
+}
