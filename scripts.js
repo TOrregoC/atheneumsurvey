@@ -72,16 +72,17 @@ function downloadTableAsExcel(tableId, filename) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    populateProjectList();
+  populateProjectList();
+
+  const createProjectForm = document.getElementById('create-project-form');
+  if (createProjectForm) {
+    createProjectForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      createNewProject();
+    });
+  }
 });
 
-const createProjectForm = document.getElementById('create-project-form');
-if (createProjectForm) {
-  createProjectForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    createNewProject();
-  });
-}
 
 function createNewProject() {
   const apCode = document.getElementById('ap-code').value;
