@@ -101,8 +101,9 @@ function createNewProject() {
   localStorage.setItem('projects', JSON.stringify(projectsData));
 
   alert('Project created successfully.');
-  window.location.href = 'projects.html';
+  window.location.reload(); // Change this line
 }
+
 
 function generateRandomID() {
   return Math.random().toString(36).substr(2, 10);
