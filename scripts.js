@@ -1,25 +1,3 @@
-const projects = [
-    {
-        apCode: 'AP001',
-        name: 'Project 1',
-        proj: 'AbCdEfGhIj',
-        data: [
-            { UID: 'UID1', RDID: 1, Date: '2023-05-05 10:00:00' },
-            { UID: 'UID2', RDID: 2, Date: '2023-05-05 11:00:00' },
-            { UID: 'UID3', RDID: 3, Date: '2023-05-05 12:00:00' },
-        ]
-    },
-    {
-        apCode: 'AP002',
-        name: 'Project 2',
-        proj: 'KlMnOpQrSt',
-        data: [
-            { UID: 'UID4', RDID: 1, Date: '2023-05-05 13:00:00' },
-            { UID: 'UID5', RDID: 2, Date: '2023-05-05 14:00:00' },
-            { UID: 'UID6', RDID: 3, Date: '2023-05-05 15:00:00' },
-        ]
-    }
-];
 const baseURL = "https://example.com/your-survey";
 
 function buildURL(proj, RDID, UID) {
@@ -42,7 +20,8 @@ function populateProjectList() {
 }
 
 function openProject(index) {
-    const project = projects[index];
+    const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+    const project = projectsData[index];
     const rightColumn = document.querySelector('.right-column');
     
     const rowData = project.data.map(entry => {
