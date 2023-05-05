@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Atheneum Sample Only Manager</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="create-new.html">Create New Project</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="left-column left-aligned">
+                <input type="text" id="search-input" placeholder="Search...">
+                <button id="search-button">Search</button>
+                <ul id="project-list">
+                    <!-- Project list will be populated dynamically -->
+                </ul>
+            </div>
+            <div class="right-column">
+                <!-- Project details will be displayed here -->
+            </div>
+        </div>
+    </main>
+    <script src="scripts.js"></script>
+</body>
+</html>
+

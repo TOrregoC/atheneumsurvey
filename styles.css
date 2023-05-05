@@ -1,0 +1,69 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #f4f4f4;
+    padding: 1.5rem;
+}
+
+h1 {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+nav ul {
+    display: inline-block;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav ul li a:hover {
+    color: #777;
+}
+
+main {
+    text-align: center;
+    padding: 3rem;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Add this to your styles.css */
+.left-aligned {
+    text-align: left;
+}
+
+/* Add these styles to your styles.css file */
+.container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .left-column {
+    flex: 1;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+}
+  
+  .right-column {
+    flex: 2;
+  }
+  
