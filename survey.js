@@ -32,3 +32,24 @@ function displaySurveyMessage() {
 }
 
 window.onload = displaySurveyMessage;
+
+function saveResponseData(proj, RDID, UID) {
+  // Read projects data from local storage
+  const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+
+  // Find the project by proj value
+  const project = projectsData.find(p => p.proj === proj);
+
+  if (project) {
+    // Add response data to the project
+    project.data.push({
+      UID,
+      RDID,
+      Date: new Date().toLocaleDateString(),
+    });
+
+    // Update the project data in local storage
+    localStorage.setItem('projects', JSON.stringify(projectsData));
+  }
+}
+
