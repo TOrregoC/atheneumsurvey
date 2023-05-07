@@ -10,8 +10,14 @@ function getQueryParams() {
 
 function displaySurveyMessage() {
   const { RDID } = getQueryParams();
-  const surveyMessage = document.getElementById('survey-message');
+  const urlParams = new URLSearchParams(window.location.search);
+  const proj = urlParams.get('proj');
+  const RDID = urlParams.get('RDID');
+  const UID = urlParams.get('UID');
 
+  saveResponseData(proj, parseInt(RDID), UID);
+
+  const surveyMessage = document.getElementById('survey-message');
   let message = '';
 
   switch (RDID) {
