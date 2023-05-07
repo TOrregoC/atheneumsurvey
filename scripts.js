@@ -5,6 +5,7 @@ function buildURL(proj, RDID, UID) {
   }
   
 function populateProjectList() {
+  console.log('Populating project list'); // Add this line for testing
   const projectList = document.getElementById('project-list');
   projectList.innerHTML = '';
 
