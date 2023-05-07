@@ -1,4 +1,4 @@
-const baseURL = "https://example.com/your-survey";
+const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 
 function buildURL(proj, RDID, UID) {
     return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
