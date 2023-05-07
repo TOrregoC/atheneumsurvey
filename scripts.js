@@ -6,11 +6,12 @@ function buildURL(proj, RDID, UID) {
   
 function populateProjectList() {
   const projectList = document.getElementById('project-list');
+  console.log('projectList:', projectList); // Add this line
   projectList.innerHTML = '';
 
   // Read projects data from local storage
   const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
-  console.log('projectsData:', projectsData); // Add this line
+  console.log('projectsData:', projectsData);
 
   projectsData.forEach((project, index) => {
     const listItem = document.createElement('li');
@@ -74,6 +75,7 @@ function downloadTableAsExcel(tableId, filename) {
 }
 
 window.onload = () => {
+  console.log('window.onload called'); // Add this line
   populateProjectList();
 
   const createProjectForm = document.getElementById('create-project-form');
