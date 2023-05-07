@@ -103,10 +103,11 @@ function createNewProject() {
   projectsData.push(newProject);
   localStorage.setItem('projects', JSON.stringify(projectsData));
 
-  alert('Project created successfully.');
-  window.location.reload(); // Change this line
-}
+  console.log('Updated projectsData:', projectsData); // Add this line
 
+  alert('Project created successfully.');
+  window.location.reload();
+}
 
 function generateRandomID() {
   return Math.random().toString(36).substr(2, 10);
