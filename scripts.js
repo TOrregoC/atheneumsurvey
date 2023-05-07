@@ -73,7 +73,7 @@ function downloadTableAsExcel(tableId, filename) {
     XLSX.writeFile(wb, filename, { bookType: 'xlsx', type: 'binary' });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = () => {
   populateProjectList();
 
   const createProjectForm = document.getElementById('create-project-form');
@@ -83,8 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
       createNewProject();
     });
   }
-});
-
+};
 
 function createNewProject() {
   const apCode = document.getElementById('ap-code').value;
