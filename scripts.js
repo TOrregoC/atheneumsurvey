@@ -5,12 +5,12 @@ function buildURL(proj, RDID, UID) {
   }
   
 function populateProjectList() {
-  console.log('Populating project list'); // Add this line for testing
   const projectList = document.getElementById('project-list');
   projectList.innerHTML = '';
 
   // Read projects data from local storage
   const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+  console.log('projectsData:', projectsData); // Add this line
 
   projectsData.forEach((project, index) => {
     const listItem = document.createElement('li');
@@ -19,6 +19,7 @@ function populateProjectList() {
     projectList.appendChild(listItem);
   });
 }
+
 
 function openProject(index) {
     const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
