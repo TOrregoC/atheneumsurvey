@@ -6,6 +6,10 @@ function buildURL(proj, RDID, UID) {
   
 function populateProjectList() {
   const projectList = document.getElementById('project-list');
+  if (!projectList) {
+    console.error('project-list element not found');
+    return;
+  }
   console.log('projectList:', projectList); // Add this line
   projectList.innerHTML = '';
 
