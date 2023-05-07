@@ -5,21 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atheneum Survey</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        .message-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: calc(100vh - 100px);
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Atheneum Sample Only Manager</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="create-new.html">Create New Project</a></li>
-            </ul>
-        </nav>
-    </header>
     <main>
         <div class="container">
-            <div id="survey-message">
+            <div class="logo-container">
+                <img src="./logo.png" alt="Company Logo">
+            </div>
+            <div class="message-container" id="survey-message">
                 <!-- The survey message will be populated dynamically -->
             </div>
         </div>
