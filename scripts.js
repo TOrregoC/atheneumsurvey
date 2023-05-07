@@ -101,8 +101,10 @@ function createNewProject() {
 
   // Save the new project to local storage
   const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+  console.log('Before saving:', projectsData); // Add this line
   projectsData.push(newProject);
   localStorage.setItem('projects', JSON.stringify(projectsData));
+  console.log('After saving:', projectsData); // Add this line
 
   console.log('Updated projectsData:', projectsData); // Add this line
 
