@@ -79,8 +79,11 @@ function downloadTableAsExcel(tableId, filename) {
 }
 
 window.onload = () => {
-  console.log('window.onload called'); // Add this line
-  populateProjectList();
+  console.log('window.onload called');
+  const projectList = document.getElementById('project-list');
+  if (projectList) {
+    populateProjectList();
+  }
 
   const createProjectForm = document.getElementById('create-project-form');
   if (createProjectForm) {
