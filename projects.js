@@ -92,7 +92,7 @@ async function openProject(index) {
   const downloadButton = document.getElementById('download-table');
   downloadButton.addEventListener('click', (event) => {
       event.preventDefault();
-      downloadTableAsExcel('project-details', `${project.name}-redirects.xlsx`);
+      downloadTableAsExcel('project-details', `${project.name}-${project.apCode}.xlsx`);
   });
 }
 
