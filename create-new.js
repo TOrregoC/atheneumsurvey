@@ -12,7 +12,6 @@ async function createNewProject() {
     apCode,
     name: projectName,
     proj,
-    data: [],
   };
 
   try {
