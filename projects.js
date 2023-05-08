@@ -1,5 +1,3 @@
-const { collection, getDocs } = window.firestoreFunctions;
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
@@ -164,15 +162,4 @@ export {
   downloadTableAsExcel,
   createNewProject,
   generateRandomID,
-};
-
-// Add the following lines at the end of projects.js
-
-export {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  getDoc,
 };
