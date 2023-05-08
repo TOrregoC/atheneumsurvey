@@ -47,6 +47,8 @@ async function addProjectToFirestore(db, project) {
       proj: project.proj,
     };
 
+    console.log("Adding project data to Firestore:", projectData);
+
     await addDoc(collection(db, "responses"), projectData);
   } catch (error) {
     console.error("Error adding document: ", error);
