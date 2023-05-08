@@ -72,8 +72,8 @@ async function openProject(index) {
       <p>Overquota: ${buildURL(project.proj, 3, '')}UID_VALUE</p>
       
       <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px;">
-        <h3 style="margin-bottom: 20px;">Here are your redirects</h3>
         <button id="download-table" style="margin-bottom: 20px;">Download Table</button>
+        <button id="update-table">Update Table</button>
       </div>
       <div style="overflow-x:auto;">
         <table id="project-details">
@@ -96,6 +96,12 @@ async function openProject(index) {
       event.preventDefault();
       downloadTableAsExcel('project-details', `${project.name}-${project.apCode}.xlsx`);
   });
+  
+  const updateButton = document.getElementById('update-table');
+  updateButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    await updateTable(index);
+  });
 }
 
 async function populateProjectList() {
@@ -117,6 +123,30 @@ async function populateProjectList() {
   } catch (error) {
     console.error("Error fetching projects:", error);
   }
+}
+
+async function updateTable(index) {
+  const projectsData = await fetchProjectData();
+  const project = projectsData[index];
+
+  // Fetch responses data from Firestore
+  const querySnapshot = await getDocs(collection(db, "responses", project.proj, "responsesData"));
+  const responsesData = [];
+  querySnapshot.forEach((doc) => {
+    responsesData.push(doc.data());
+  });
+
+  const rowData = responsesData.map((entry) => {
+    const status = parseInt(entry.RDID) === 1 ? 'Complete' : (parseInt(entry.RDID) === 2 ? 'Terminate' : 'Overquota');
+    return `<tr>
+                <td>${entry.UID}</td>
+                <td>${status}</td>
+                <td>${entry.Date}</td>
+            </tr>`;
+  }).join('');
+
+  const tbody = document.querySelector('#project-details tbody');
+  tbody.innerHTML = rowData;
 }
 
 async function addProjectToFirestore(db, project) {
