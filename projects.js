@@ -1,21 +1,32 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
+  authDomain: "atheneumsurveys.firebaseapp.com",
+  projectId: "atheneumsurveys",
+  storageBucket: "atheneumsurveys.appspot.com",
+  messagingSenderId: "291426672334",
+  appId: "1:291426672334:web:9c52ce815fc184091cfa9f",
+  measurementId: "G-8MPDN9YZLF",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 
 function buildURL(proj, RDID, UID) {
     return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
   }
   
-function populateProjectList() {
+async function populateProjectList() {
   const projectList = document.getElementById('project-list');
   if (!projectList) {
     console.error('project-list element not found');
     return;
   }
-  console.log('projectList:', projectList); // Add this line
-  projectList.innerHTML = '';
 
-  // Read projects data from local storage
-  const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
-  console.log('projectsData:', projectsData);
+  const projectsData = await fetchProjectData();
 
   projectsData.forEach((project, index) => {
     const listItem = document.createElement('li');
@@ -25,6 +36,30 @@ function populateProjectList() {
   });
 }
 
+async function fetchProjectData() {
+  const projectsData = [];
+  try {
+    const querySnapshot = await getDocs(collection(db, "responses"));
+    querySnapshot.forEach((doc) => {
+      const responseData = doc.data();
+      const projectIndex = projectsData.findIndex(
+        (project) => project.proj === responseData.proj
+      );
+      if (projectIndex > -1) {
+        projectsData[projectIndex].data.push(responseData);
+      } else {
+        projectsData.push({
+          proj: responseData.proj,
+          data: [responseData],
+        });
+      }
+    });
+    return projectsData;
+  } catch (error) {
+    console.error("Error fetching project data: ", error);
+    return [];
+  }
+}
 
 function openProject(index) {
     const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
@@ -78,9 +113,9 @@ function downloadTableAsExcel(tableId, filename) {
     XLSX.writeFile(wb, filename, { bookType: 'xlsx', type: 'binary' });
 }
 
-window.onload = () => {
+window.onload = async () => {
   console.log('window.onload called');
-  populateProjectList();
+  await populateProjectList();
 };
 
 
