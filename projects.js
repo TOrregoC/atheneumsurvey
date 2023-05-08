@@ -57,7 +57,7 @@ async function openProject(index) {
   });
 
   const rowData = responsesData.map((entry) => {
-    const status = entry.RDID === 1 ? 'Complete' : (entry.RDID === 2 ? 'Terminate' : 'Overquota');
+    const status = entry.RDID === "1" ? 'Complete' : (entry.RDID === "2" ? 'Terminate' : 'Overquota');
     return `<tr>
                 <td>${entry.UID}</td>
                 <td>${status}</td>
