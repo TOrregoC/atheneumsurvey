@@ -23,8 +23,8 @@ function getQueryParams() {
   const urlParams = new URLSearchParams(queryString);
   return {
     proj: urlParams.get('proj'),
-    RDID: urlParams.get('RDID'),
-    UID: urlParams.get('UID')
+    RDID: parseInt(urlParams.get('RDID')),
+    UID: urlParams.get('UID'),
   };
 }
 
