@@ -3,32 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
+    <title>Create New Project</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
-        authDomain: "atheneumsurveys.firebaseapp.com",
-        projectId: "atheneumsurveys",
-        storageBucket: "atheneumsurveys.appspot.com",
-        messagingSenderId: "291426672334",
-        appId: "1:291426672334:web:9c52ce815fc184091cfa9f",
-        measurementId: "G-8MPDN9YZLF"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
 </head>
 <body>
     <header>
@@ -42,19 +18,17 @@
         </nav>
     </header>
     <main>
-        <div class="container">
-            <div class="left-column left-aligned">
-                <input type="text" id="search-input" placeholder="Search...">
-                <button id="search-button">Search</button>
-                <ul id="project-list">
-                    <!-- Project list will be populated dynamically -->
-                </ul>
-            </div>
-            <div class="right-column">
-                <!-- Project details will be displayed here -->
-            </div>
-        </div>
+        <form id="create-project-form">
+            <label for="ap-code">AP Code:</label>
+            <input type="text" id="ap-code" required>
+            <br>
+            <label for="project-name">Project Name:</label>
+            <input type="text" id="project-name" required>
+            <br>
+            <button type="submit">Create Project</button>
+        </form>
+        <p id="error-message" style="color: red;"></p>
     </main>
-    <script src="projects.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
