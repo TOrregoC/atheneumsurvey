@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Project</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
+        authDomain: "atheneumsurveys.firebaseapp.com",
+        projectId: "atheneumsurveys",
+        storageBucket: "atheneumsurveys.appspot.com",
+        messagingSenderId: "291426672334",
+        appId: "1:291426672334:web:9c52ce815fc184091cfa9f",
+        measurementId: "G-8MPDN9YZLF"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
 </head>
 <body>
     <header>
@@ -29,6 +49,7 @@
         </form>
         <p id="error-message" style="color: red;"></p>
     </main>
-    <script src="create-new.js"></script>
+    <script src="create-new.js" type="module"></script>
 </body>
 </html>
+
