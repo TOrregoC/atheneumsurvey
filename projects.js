@@ -104,6 +104,8 @@ async function openProject(index) {
   });
 }
 
+await updateTable(index);
+
 async function populateProjectList() {
   const projectList = document.getElementById("project-list");
   if (!projectList) {
@@ -135,6 +137,9 @@ async function updateTable(index) {
   querySnapshot.forEach((doc) => {
     responsesData.push(doc.data());
   });
+
+  // Sort responsesData from latest to oldest
+  responsesData.sort((a, b) => new Date(b.Date) - new Date(a.Date));
 
   const rowData = responsesData.map((entry) => {
     const status = parseInt(entry.RDID) === 1 ? 'Complete' : (parseInt(entry.RDID) === 2 ? 'Terminate' : 'Overquota');
