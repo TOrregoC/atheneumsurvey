@@ -1,11 +1,5 @@
-let initializeApp, getFirestore, collection, getDocs;
-
-async function initFirebase() {
-  ({ initializeApp } = await import("https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"));
-  ({ getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js"));
-}
-
-initFirebase();
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
@@ -22,11 +16,11 @@ const db = getFirestore(app);
 
 const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 
-export function buildURL(proj, RDID, UID) {
+function buildURL(proj, RDID, UID) {
     return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
   }
   
-export async function populateProjectList() {
+async function populateProjectList() {
   const projectList = document.getElementById('project-list');
   if (!projectList) {
     console.error('project-list element not found');
@@ -43,7 +37,7 @@ export async function populateProjectList() {
   });
 }
 
-export async function fetchProjectData() {
+async function fetchProjectData() {
   const projectsData = [];
   try {
     const querySnapshot = await getDocs(collection(db, "responses"));
@@ -68,7 +62,7 @@ export async function fetchProjectData() {
   }
 }
 
-export async function openProject(index) {
+async function openProject(index) {
   const projectsData = await fetchProjectData();
   const project = projectsData[index];
   const rightColumn = document.querySelector('.right-column');
@@ -110,7 +104,7 @@ export async function openProject(index) {
   });
 }
 
-export function downloadTableAsExcel(tableId, filename) {
+function downloadTableAsExcel(tableId, filename) {
     const table = document.getElementById(tableId);
     const ws = XLSX.utils.table_to_sheet(table);
     const wb = XLSX.utils.book_new();
@@ -125,7 +119,7 @@ window.onload = async () => {
 };
 
 
-export function createNewProject() {
+function createNewProject() {
   const apCode = document.getElementById('ap-code').value;
   const projectName = document.getElementById('project-name').value;
   const proj = generateRandomID();
@@ -150,6 +144,15 @@ export function createNewProject() {
   window.location.reload();
 }
 
-export function generateRandomID() {
+function generateRandomID() {
   return Math.random().toString(36).substr(2, 10);
 }
+
+export {
+  buildURL,
+  populateProjectList,
+  openProject,
+  downloadTableAsExcel,
+  createNewProject,
+  generateRandomID,
+};
