@@ -45,6 +45,15 @@ function buildURL(proj, RDID, UID) {
   return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
 }
 
+function downloadTableAsExcel(tableId, filename) {
+  const table = document.getElementById(tableId);
+  const ws = XLSX.utils.table_to_sheet(table);
+  const wb = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  XLSX.writeFile(wb, filename, { bookType: "xlsx", type: "binary" });
+}
+
 async function addProjectToFirestore(db, project) {
   try {
     const projectData = {
@@ -62,4 +71,4 @@ async function addProjectToFirestore(db, project) {
   }
 }
 
-export { db, fetchProjectData, addProjectToFirestore, buildURL };
+export { db, fetchProjectData, addProjectToFirestore, buildURL, downloadTableAsExcel };
