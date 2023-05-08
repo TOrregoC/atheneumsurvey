@@ -51,7 +51,7 @@ function displaySurveyMessage() {
   const surveyMessage = document.getElementById('survey-message');
   let message = '';
 
-  switch (RDID) {
+  switch (RDID.toString()) { // Convert RDID to a string
     case '1':
       message = 'Thank you for taking this survey. Your effort is greatly appreciated!';
       break;
