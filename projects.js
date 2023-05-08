@@ -1,7 +1,7 @@
 const { collection, getDocs } = window.firestoreFunctions;
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
@@ -17,6 +17,13 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
+
+async function addProjectToFirestore(firestore, project) {
+  const projectsRef = collection(firestore, "projects");
+  await addDoc(projectsRef, project);
+}
+
+export { addProjectToFirestore };
 
 function buildURL(proj, RDID, UID) {
     return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
