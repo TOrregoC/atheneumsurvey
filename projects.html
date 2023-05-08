@@ -10,23 +10,24 @@
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
-    
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
       // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
       const firebaseConfig = {
-        apiKey: "<API_KEY>",
-        authDomain: "<AUTH_DOMAIN>",
-        projectId: "<PROJECT_ID>",
-        storageBucket: "<STORAGE_BUCKET>",
-        messagingSenderId: "<MESSAGING_SENDER_ID>",
-        appId: "<APP_ID>",
-        measurementId: "<MEASUREMENT_ID>"
+        apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
+        authDomain: "atheneumsurveys.firebaseapp.com",
+        projectId: "atheneumsurveys",
+        storageBucket: "atheneumsurveys.appspot.com",
+        messagingSenderId: "291426672334",
+        appId: "1:291426672334:web:9c52ce815fc184091cfa9f",
+        measurementId: "G-8MPDN9YZLF"
       };
-    
+
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
-      const db = getFirestore(app);
     </script>
 </head>
 <body>
