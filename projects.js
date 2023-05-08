@@ -71,9 +71,9 @@ async function openProject(index) {
       <p>Terminate: ${buildURL(project.proj, 2, '')}UID_VALUE</p>
       <p>Overquota: ${buildURL(project.proj, 3, '')}UID_VALUE</p>
       
-      <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-      <h3 style="margin-right: 20px;">Here are your redirects</h3>
-      <button id="download-table">Download Table</button>
+      <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin-bottom: 20px;">Here are your redirects</h3>
+        <button id="download-table" style="margin-bottom: 20px;">Download Table</button>
       </div>
       <div style="overflow-x:auto;">
         <table id="project-details">
