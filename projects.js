@@ -1,9 +1,11 @@
 let initializeApp, getFirestore, collection, getDocs;
 
-(async () => {
+async function initFirebase() {
   ({ initializeApp } = await import("https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"));
   ({ getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js"));
-})();
+}
+
+initFirebase();
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
@@ -15,8 +17,9 @@ const firebaseConfig = {
   measurementId: "G-8MPDN9YZLF",
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 
 export function buildURL(proj, RDID, UID) {
