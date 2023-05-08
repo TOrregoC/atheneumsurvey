@@ -97,24 +97,24 @@ async function openProject(index) {
 }
 
 async function populateProjectList() {
-  const projectList = document.getElementById('project-list');
+  const projectList = document.getElementById("project-list");
   if (!projectList) {
-    console.error('project-list element not found');
+    console.error("project-list element not found");
     return;
   }
-  console.log('projectList:', projectList);
-  projectList.innerHTML = '';
+  projectList.innerHTML = "";
 
-  // Read projects data from Firestore
-  const projectsData = await fetchProjectData();
-  console.log('projectsData:', projectsData);
-
-  projectsData.forEach((project, index) => {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${project.apCode} - ${project.name}`;
-    listItem.addEventListener('click', () => openProject(index));
-    projectList.appendChild(listItem);
-  });
+  try {
+    const projectsData = await fetchProjects();
+    projectsData.forEach((project, index) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${project.apCode} - ${project.name}`;
+      listItem.addEventListener("click", () => openProject(index));
+      projectList.appendChild(listItem);
+    });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+  }
 }
 
 async function addProjectToFirestore(db, project) {
