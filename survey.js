@@ -30,14 +30,13 @@ function getQueryParams() {
 
 async function saveResponseData(proj, RDID, UID) {
   const response = {
-    proj,
     UID,
     RDID,
     Date: new Date().toISOString(),
   };
 
   try {
-    await addDoc(collection(db, "responses"), response);
+    await addDoc(collection(db, "responses", proj, "responsesData"), response);
     console.log("Response saved successfully");
   } catch (error) {
     console.error("Error saving response: ", error);
