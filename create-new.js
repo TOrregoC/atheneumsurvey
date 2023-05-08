@@ -1,8 +1,10 @@
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "./projects.js";
+
 const baseURL = "https://example.com/your-survey";
 
 function buildURL(proj, RDID, UID) {
-    return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
-  }
+  return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
+}
   
 function populateProjectList() {
   const projectList = document.getElementById('project-list');
@@ -89,8 +91,7 @@ window.onload = () => {
   }
 };
 
-
-function createNewProject() {
+async function createNewProject() {
   const apCode = document.getElementById('ap-code').value;
   const projectName = document.getElementById('project-name').value;
   const proj = generateRandomID();
@@ -102,17 +103,17 @@ function createNewProject() {
     data: []
   };
 
-  // Save the new project to local storage
-  const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
-  console.log('Before saving:', projectsData); // Add this line
-  projectsData.push(newProject);
-  localStorage.setItem('projects', JSON.stringify(projectsData));
-  console.log('After saving:', projectsData); // Add this line
-
-  console.log('Updated projectsData:', projectsData); // Add this line
-
-  alert('Project created successfully.');
-  window.location.reload();
+  try {
+    // Save the new project to Firestore
+    const firestore = getFirestore();
+    const projectsRef = collection(firestore, "projects");
+    await addDoc(projectsRef, newProject);
+    alert('Project created successfully.');
+    window.location.href = "projects.html";
+  } catch (error) {
+    console.error("Error adding project to Firestore:", error);
+    alert("Error creating project. Please try again.");
+  }
 }
 
 function generateRandomID() {
