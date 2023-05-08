@@ -1,4 +1,11 @@
-import { getFirestore, addProjectToFirestore, collection, addDoc, getDocs, doc, getDoc } from "./projects.js";
+import { addProjectToFirestore } from "./projects.js";
+// Import the necessary Firestore functions
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+} from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
 const baseURL = "https://example.com/your-survey";
 
@@ -90,6 +97,32 @@ window.onload = () => {
     });
   }
 };
+
+async function fetchProjectData() {
+  const projectsData = [];
+  try {
+    const db = getFirestore();
+    const querySnapshot = await getDocs(collection(db, "responses"));
+    querySnapshot.forEach((doc) => {
+      const responseData = doc.data();
+      const projectIndex = projectsData.findIndex(
+        (project) => project.proj === responseData.proj
+      );
+      if (projectIndex > -1) {
+        projectsData[projectIndex].data.push(responseData);
+      } else {
+        projectsData.push({
+          proj: responseData.proj,
+          data: [responseData],
+        });
+      }
+    });
+    return projectsData;
+  } catch (error) {
+    console.error("Error fetching project data: ", error);
+    return [];
+  }
+}
 
 async function createNewProject() {
   const apCode = document.getElementById('ap-code').value;
