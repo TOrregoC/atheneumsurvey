@@ -102,7 +102,7 @@ async function populateProjectList() {
   projectList.innerHTML = "";
 
   try {
-    const projectsData = await fetchProjects();
+    const projectsData = await fetchProjectData();
     projectsData.forEach((project, index) => {
       const listItem = document.createElement("li");
       listItem.textContent = `${project.apCode} - ${project.name}`;
