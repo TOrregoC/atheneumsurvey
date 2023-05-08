@@ -7,16 +7,16 @@ import {
   generateRandomID,
 } from "./projects.js";
 
-window.onload = () => {
-  console.log("window.onload called");
-  const projectList = document.getElementById("project-list");
+window.onload = async () => {
+  console.log('window.onload called');
+  const projectList = document.getElementById('project-list');
   if (projectList) {
-    populateProjectList();
+    await populateProjectList();
   }
 
-  const createProjectForm = document.getElementById("create-project-form");
+  const createProjectForm = document.getElementById('create-project-form');
   if (createProjectForm) {
-    createProjectForm.addEventListener("submit", (event) => {
+    createProjectForm.addEventListener('submit', (event) => {
       event.preventDefault();
       createNewProject();
     });
