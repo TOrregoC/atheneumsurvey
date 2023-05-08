@@ -3,7 +3,6 @@ import {
   populateProjectList,
   openProject,
   downloadTableAsExcel,
-  createNewProject,
   generateRandomID,
 } from "./projects.js";
 
