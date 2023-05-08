@@ -1,4 +1,5 @@
 import { addProjectToFirestore } from "./projects.js";
+import { db } from "./projects.js";
 import {
   getFirestore,
   collection,
