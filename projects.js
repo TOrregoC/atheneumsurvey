@@ -39,11 +39,17 @@ async function fetchProjectData() {
   }
 }
 
-async function addProjectToFirestore(db, newProject) {
+async function addProjectToFirestore(db, project) {
   try {
-    await addDoc(collection(db, "responses"), newProject);
+    const projectData = {
+      apCode: project.apCode,
+      name: project.name,
+      proj: project.proj,
+    };
+
+    await addDoc(collection(db, "responses"), projectData);
   } catch (error) {
-    console.error("Error adding project to Firestore:", error);
+    console.error("Error adding document: ", error);
     throw error;
   }
 }
