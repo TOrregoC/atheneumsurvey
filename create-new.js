@@ -32,7 +32,7 @@ async function createNewProject() {
   try {
     // Save the new project to Firestore
     const firestore = getFirestore();
-    await addProjectToFirestore(firestore, newProject);
+    await addProjectToFirestore(db, newProject);
     alert('Project created successfully.');
     window.location.href = "projects.html";
   } catch (error) {
