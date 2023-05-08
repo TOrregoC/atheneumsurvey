@@ -15,11 +15,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 
-function buildURL(proj, RDID, UID) {
+export function buildURL(proj, RDID, UID) {
     return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
   }
   
-async function populateProjectList() {
+export async function populateProjectList() {
   const projectList = document.getElementById('project-list');
   if (!projectList) {
     console.error('project-list element not found');
@@ -36,7 +36,7 @@ async function populateProjectList() {
   });
 }
 
-async function fetchProjectData() {
+export async function fetchProjectData() {
   const projectsData = [];
   try {
     const querySnapshot = await getDocs(collection(db, "responses"));
@@ -61,7 +61,7 @@ async function fetchProjectData() {
   }
 }
 
-async function openProject(index) {
+export async function openProject(index) {
   const projectsData = await fetchProjectData();
   const project = projectsData[index];
   const rightColumn = document.querySelector('.right-column');
@@ -103,7 +103,7 @@ async function openProject(index) {
   });
 }
 
-function downloadTableAsExcel(tableId, filename) {
+export function downloadTableAsExcel(tableId, filename) {
     const table = document.getElementById(tableId);
     const ws = XLSX.utils.table_to_sheet(table);
     const wb = XLSX.utils.book_new();
@@ -118,7 +118,7 @@ window.onload = async () => {
 };
 
 
-function createNewProject() {
+export function createNewProject() {
   const apCode = document.getElementById('ap-code').value;
   const projectName = document.getElementById('project-name').value;
   const proj = generateRandomID();
@@ -143,6 +143,6 @@ function createNewProject() {
   window.location.reload();
 }
 
-function generateRandomID() {
+export function generateRandomID() {
   return Math.random().toString(36).substr(2, 10);
 }
