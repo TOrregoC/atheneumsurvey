@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 
@@ -123,4 +123,4 @@ async function addProjectToFirestore(project) {
   }
 }
 
-export { db, fetchProjectData, addProjectToFirestore, buildURL, downloadTableAsExcel, openProject, populateProjectList };
+export { fetchProjectData, addProjectToFirestore, buildURL, downloadTableAsExcel, openProject, populateProjectList };
