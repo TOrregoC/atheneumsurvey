@@ -158,3 +158,14 @@ export {
   createNewProject,
   generateRandomID,
 };
+
+// Add the following lines at the end of projects.js
+
+export {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  getDoc,
+};
