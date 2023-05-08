@@ -14,6 +14,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
+
 async function fetchProjectData() {
   const projectsData = [];
   try {
