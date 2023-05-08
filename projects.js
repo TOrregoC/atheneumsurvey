@@ -61,47 +61,46 @@ async function fetchProjectData() {
   }
 }
 
-function openProject(index) {
-    const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
-    const project = projectsData[index];
-    const rightColumn = document.querySelector('.right-column');
-    
-    const rowData = project.data.map(entry => {
-        const status = entry.RDID === 1 ? 'Complete' : (entry.RDID === 2 ? 'Terminate' : 'Overquota');
-        return `<tr>
-                    <td>${entry.UID}</td>
-                    <td>${status}</td>
-                    <td>${entry.Date}</td>
-                </tr>`;
-    }).join('');
+async function openProject(index) {
+  const projectsData = await fetchProjectData();
+  const project = projectsData[index];
+  const rightColumn = document.querySelector('.right-column');
 
-    rightColumn.innerHTML = `
-        <h3>Here are your redirects</h3>
-        <p>Complete: ${buildURL(project.proj, 1, '')}UID_VALUE</p>
-        <p>Terminate: ${buildURL(project.proj, 2, '')}UID_VALUE</p>
-        <p>Overquota: ${buildURL(project.proj, 3, '')}UID_VALUE</p>
+  const rowData = project.data.map(entry => {
+    const status = entry.RDID === 1 ? 'Complete' : (entry.RDID === 2 ? 'Terminate' : 'Overquota');
+    return `<tr>
+                <td>${entry.UID}</td>
+                <td>${status}</td>
+                <td>${entry.Date}</td>
+            </tr>`;
+  }).join('');
 
-        
-        <table id="project-details">
-            <thead>
-                <tr>
-                    <th>UID</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rowData}
-            </tbody>
-        </table>
-        <button id="download-table" style="float: right;">Download Table</button>
-    `;
+  rightColumn.innerHTML = `
+      <h3>Here are your redirects</h3>
+      <p>Complete: ${buildURL(project.proj, 1, '')}UID_VALUE</p>
+      <p>Terminate: ${buildURL(project.proj, 2, '')}UID_VALUE</p>
+      <p>Overquota: ${buildURL(project.proj, 3, '')}UID_VALUE</p>
 
-    const downloadButton = document.getElementById('download-table');
-    downloadButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        downloadTableAsExcel('project-details', `${project.name}-redirects.xlsx`);
-    });
+      <table id="project-details">
+          <thead>
+              <tr>
+                  <th>UID</th>
+                  <th>Status</th>
+                  <th>Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              ${rowData}
+          </tbody>
+      </table>
+      <button id="download-table" style="float: right;">Download Table</button>
+  `;
+
+  const downloadButton = document.getElementById('download-table');
+  downloadButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      downloadTableAsExcel('project-details', `${project.name}-redirects.xlsx`);
+  });
 }
 
 function downloadTableAsExcel(tableId, filename) {
