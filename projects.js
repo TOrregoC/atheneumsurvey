@@ -19,7 +19,7 @@ const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 async function fetchProjectData() {
   const projectsData = [];
   try {
-    const querySnapshot = await getDocs(query(collection(db, "responses"), where("isProject", "==", true)));
+    const querySnapshot = await getDocs(collection(db, "projects"));
     querySnapshot.forEach((doc) => {
       const projectData = doc.data();
       projectsData.push({ id: doc.id, ...projectData });
@@ -116,7 +116,7 @@ async function populateProjectList() {
 
 async function addProjectToFirestore(db, project) {
   try {
-    await addDoc(collection(db, "responses"), { ...project, isProject: true });
+    await addDoc(collection(db, "projects"), project);
     console.log("Project added to Firestore");
   } catch (error) {
     console.error("Error adding project to Firestore: ", error);
