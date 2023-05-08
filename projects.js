@@ -16,12 +16,13 @@ const db = getFirestore(app);
 
 const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 
-async function addProjectToFirestore(firestore, project) {
-  const projectsRef = collection(firestore, "projects");
-  await addDoc(projectsRef, project);
+async function addProjectToFirestore(project) {
+  const docRef = await addDoc(collection(db, "responses"), project);
+  console.log("Project added to Firestore with ID:", docRef.id);
 }
 
 export { addProjectToFirestore };
+
 
 function buildURL(proj, RDID, UID) {
     return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
@@ -125,31 +126,29 @@ window.onload = async () => {
   await populateProjectList();
 };
 
-
-function createNewProject() {
-  const apCode = document.getElementById('ap-code').value;
-  const projectName = document.getElementById('project-name').value;
+async function createNewProject() {
+  const apCode = document.getElementById("ap-code").value;
+  const projectName = document.getElementById("project-name").value;
   const proj = generateRandomID();
 
   const newProject = {
     apCode,
     name: projectName,
     proj,
-    data: []
+    data: [],
   };
 
-  // Save the new project to local storage
-  const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
-  console.log('Before saving:', projectsData); // Add this line
-  projectsData.push(newProject);
-  localStorage.setItem('projects', JSON.stringify(projectsData));
-  console.log('After saving:', projectsData); // Add this line
-
-  console.log('Updated projectsData:', projectsData); // Add this line
-
-  alert('Project created successfully.');
-  window.location.reload();
+  try {
+    // Save the new project to Firestore
+    await addProjectToFirestore(newProject);
+    alert("Project created successfully.");
+    window.location.href = "projects.html";
+  } catch (error) {
+    console.error("Error adding project to Firestore:", error);
+    alert("Error creating project. Please try again.");
+  }
 }
+
 
 function generateRandomID() {
   return Math.random().toString(36).substr(2, 10);
