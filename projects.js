@@ -64,6 +64,8 @@ async function openProject(index) {
                 <td>${entry.Date}</td>
             </tr>`;
   }).join('');
+  const incidenceRate = calculateIncidenceRate(responsesData);
+  const incidenceRatePercentage = (incidenceRate * 100).toFixed(2);
 
   rightColumn.innerHTML = `
       <h3>Here are your redirects</h3>
@@ -71,6 +73,8 @@ async function openProject(index) {
       <p>Terminate: ${buildURL(project.proj, 2, '')}UID_VALUE</p>
       <p>Overquota: ${buildURL(project.proj, 3, '')}UID_VALUE</p>
       
+      <p style="text-align: left;">IR = ${incidenceRatePercentage}%</p>
+
       <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px;">
         <button id="download-table" style="margin-bottom: 20px;">Download Table</button>
         <button id="update-table">Update Table</button>
@@ -164,6 +168,22 @@ async function addProjectToFirestore(db, project) {
     console.error("Error adding project to Firestore: ", error);
     throw error;
   }
+}
+
+function calculateIncidenceRate(responsesData) {
+  let completes = 0;
+  let terminates = 0;
+
+  responsesData.forEach((entry) => {
+    if (entry.RDID === '1') {
+      completes++;
+    } else if (entry.RDID === '2') {
+      terminates++;
+    }
+  });
+
+  const incidenceRate = completes / (completes + terminates);
+  return incidenceRate;
 }
 
 export { fetchProjectData, addProjectToFirestore, buildURL, downloadTableAsExcel, openProject, populateProjectList };
