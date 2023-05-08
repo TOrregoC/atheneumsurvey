@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "./projects.js";
+import { getFirestore, addProjectToFirestore, collection, addDoc, getDocs, doc, getDoc } from "./projects.js";
 
 const baseURL = "https://example.com/your-survey";
 
@@ -106,8 +106,7 @@ async function createNewProject() {
   try {
     // Save the new project to Firestore
     const firestore = getFirestore();
-    const projectsRef = collection(firestore, "projects");
-    await addDoc(projectsRef, newProject);
+    await addProjectToFirestore(firestore, newProject);
     alert('Project created successfully.');
     window.location.href = "projects.html";
   } catch (error) {
@@ -115,6 +114,7 @@ async function createNewProject() {
     alert("Error creating project. Please try again.");
   }
 }
+
 
 function generateRandomID() {
   return Math.random().toString(36).substr(2, 10);
