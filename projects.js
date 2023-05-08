@@ -39,6 +39,10 @@ async function fetchProjectData() {
   }
 }
 
+function buildURL(proj, RDID, UID) {
+  return `${baseURL}?proj=${encodeURIComponent(proj)}&RDID=${encodeURIComponent(RDID)}&UID=${encodeURIComponent(UID)}`;
+}
+
 async function addProjectToFirestore(db, project) {
   try {
     const projectData = {
@@ -56,4 +60,4 @@ async function addProjectToFirestore(db, project) {
   }
 }
 
-export { db, fetchProjectData, addProjectToFirestore };
+export { db, fetchProjectData, addProjectToFirestore, buildURL };
