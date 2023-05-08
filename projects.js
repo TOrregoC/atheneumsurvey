@@ -50,7 +50,7 @@ async function openProject(index) {
   const rightColumn = document.querySelector(".right-column");
 
   // Fetch responses data from Firestore
-  const querySnapshot = await getDocs(collection(db, "responses", project.id, "responsesData"));
+  const querySnapshot = await getDocs(collection(db, "responses", project.proj, "responsesData"));
   const responsesData = [];
   querySnapshot.forEach((doc) => {
     responsesData.push(doc.data());
