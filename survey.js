@@ -16,6 +16,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const db = getFirestore(app);
 
 function getQueryParams() {
   const queryString = window.location.search;
@@ -31,8 +32,8 @@ function displaySurveyMessage() {
   const { RDID } = getQueryParams();
   const urlParams = new URLSearchParams(window.location.search);
   const proj = urlParams.get('proj');
-  const RDID = urlParams.get('RDID');
-  const UID = urlParams.get('UID');
+  const RDID = urlParams.get('RDID').toString();
+  const UID = urlParams.get('UID').toString();
 
   saveResponseData(proj, parseInt(RDID), UID);
 
@@ -40,19 +41,21 @@ function displaySurveyMessage() {
   const db = getFirestore(app);
 
 async function saveResponseData(proj, RDID, UID) {
-  const responseCollection = collection(db, "responses");
+  const response = {
+    proj,
+    UID,
+    RDID,
+    Date: new Date().toISOString(),
+  };
 
   try {
-    await addDoc(responseCollection, {
-      proj,
-      UID,
-      RDID,
-      Date: new Date().toISOString(),
-    });
-  } catch (e) {
-    console.error("Error adding document: ", e);
+    await addDoc(collection(db, "responses"), response);
+    console.log("Response saved successfully");
+  } catch (error) {
+    console.error("Error saving response: ", error);
   }
 }
+
 
 function displaySurveyMessage() {
   const { RDID } = getQueryParams();
