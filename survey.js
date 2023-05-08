@@ -1,3 +1,5 @@
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+
 function getQueryParams() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -39,23 +41,20 @@ function displaySurveyMessage() {
 
 window.onload = displaySurveyMessage;
 
-function saveResponseData(proj, RDID, UID) {
-  // Read projects data from local storage
-  const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+async function saveResponseData(proj, RDID, UID) {
+  const db = getFirestore();
 
-  // Find the project by proj value
-  const project = projectsData.find(p => p.proj === proj);
+  const response = {
+    proj,
+    UID,
+    RDID,
+    Date: new Date().toISOString()
+  };
 
-  if (project) {
-    // Add response data to the project
-    project.data.push({
-      UID,
-      RDID,
-      Date: new Date().toLocaleDateString(),
-    });
-
-    // Update the project data in local storage
-    localStorage.setItem('projects', JSON.stringify(projectsData));
+  try {
+    const docRef = await addDoc(collection(db, "responses"), response);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
   }
 }
-
