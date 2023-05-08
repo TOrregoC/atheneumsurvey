@@ -66,4 +66,19 @@ img {
   .right-column {
     flex: 2;
   }
-  
+
+#project-details {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#project-details th,
+#project-details td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+#project-details th {
+  background-color: #f2f2f2;
+}
