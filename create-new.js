@@ -1,11 +1,25 @@
-import { addProjectToFirestore, db } from "./projects.js";
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+import { addProjectToFirestore } from "./projects.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+} from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
-const baseURL = "https://example.com/your-survey";
+window.onload = () => {
+  console.log('window.onload called');
+  const createProjectForm = document.getElementById('create-project-form');
+  if (createProjectForm) {
+    createProjectForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      createNewProject();
+    });
+  }
+};
 
 async function createNewProject() {
-  const apCode = document.getElementById("ap-code").value;
-  const projectName = document.getElementById("project-name").value;
+  const apCode = document.getElementById('ap-code').value;
+  const projectName = document.getElementById('project-name').value;
   const proj = generateRandomID();
 
   const newProject = {
@@ -16,8 +30,9 @@ async function createNewProject() {
 
   try {
     // Save the new project to Firestore
-    await addProjectToFirestore(db, newProject);
-    alert("Project created successfully.");
+    const firestore = getFirestore();
+    await addProjectToFirestore(firestore, newProject);
+    alert('Project created successfully.');
     window.location.href = "projects.html";
   } catch (error) {
     console.error("Error adding project to Firestore:", error);
@@ -29,13 +44,3 @@ function generateRandomID() {
   return Math.random().toString(36).substr(2, 10);
 }
 
-window.onload = () => {
-  console.log("window.onload called");
-  const createProjectForm = document.getElementById("create-project-form");
-  if (createProjectForm) {
-    createProjectForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      createNewProject();
-    });
-  }
-};
