@@ -114,12 +114,13 @@ async function populateProjectList() {
   }
 }
 
-async function addProjectToFirestore(project) {
+async function addProjectToFirestore(db, project) {
   try {
     await addDoc(collection(db, "responses"), { ...project, isProject: true });
     console.log("Project added to Firestore");
   } catch (error) {
     console.error("Error adding project to Firestore: ", error);
+    throw error;
   }
 }
 
