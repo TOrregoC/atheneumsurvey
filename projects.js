@@ -1,3 +1,10 @@
+let initializeApp, getFirestore, collection, getDocs;
+
+(async () => {
+  ({ initializeApp } = await import("https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"));
+  ({ getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js"));
+})();
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
