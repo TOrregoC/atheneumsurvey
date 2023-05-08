@@ -102,9 +102,12 @@ async function openProject(index) {
     event.preventDefault();
     await updateTable(index);
   });
+  
+  await updateTable(index);
+  
 }
 
-await updateTable(index);
+
 
 async function populateProjectList() {
   const projectList = document.getElementById("project-list");
