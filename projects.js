@@ -1,3 +1,5 @@
+const { collection, getDocs } = window.firestoreFunctions;
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
