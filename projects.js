@@ -96,6 +96,27 @@ async function openProject(index) {
   });
 }
 
+async function populateProjectList() {
+  const projectList = document.getElementById('project-list');
+  if (!projectList) {
+    console.error('project-list element not found');
+    return;
+  }
+  console.log('projectList:', projectList);
+  projectList.innerHTML = '';
+
+  // Read projects data from Firestore
+  const projectsData = await fetchProjectData();
+  console.log('projectsData:', projectsData);
+
+  projectsData.forEach((project, index) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${project.apCode} - ${project.name}`;
+    listItem.addEventListener('click', () => openProject(index));
+    projectList.appendChild(listItem);
+  });
+}
+
 async function addProjectToFirestore(db, project) {
   try {
     const projectData = {
@@ -113,4 +134,4 @@ async function addProjectToFirestore(db, project) {
   }
 }
 
-export { db, fetchProjectData, addProjectToFirestore, buildURL, downloadTableAsExcel, openProject };
+export { db, fetchProjectData, addProjectToFirestore, buildURL, downloadTableAsExcel, openProject, populateProjectList };
