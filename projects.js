@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, where } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
@@ -19,20 +19,10 @@ const baseURL = "https://torregoc.github.io/atheneumsurvey/survey.html";
 async function fetchProjectData() {
   const projectsData = [];
   try {
-    const querySnapshot = await getDocs(collection(db, "responses"));
+    const querySnapshot = await getDocs(query(collection(db, "responses"), where("isProject", "==", true)));
     querySnapshot.forEach((doc) => {
-      const responseData = doc.data();
-      const projectIndex = projectsData.findIndex(
-        (project) => project.proj === responseData.proj
-      );
-      if (projectIndex > -1) {
-        projectsData[projectIndex].data.push(responseData);
-      } else {
-        projectsData.push({
-          proj: responseData.proj,
-          data: [responseData],
-        });
-      }
+      const projectData = doc.data();
+      projectsData.push({ id: doc.id, ...projectData });
     });
     return projectsData;
   } catch (error) {
@@ -57,7 +47,14 @@ function downloadTableAsExcel(tableId, filename) {
 async function openProject(index) {
   const projectsData = await fetchProjectData();
   const project = projectsData[index];
-  const rightColumn = document.querySelector('.right-column');
+  const rightColumn = document.querySelector(".right-column");
+
+  // Fetch responses data from Firestore
+  const querySnapshot = await getDocs(collection(db, "responses", project.id, "responsesData"));
+  const responsesData = [];
+  querySnapshot.forEach((doc) => {
+    responsesData.push(doc.data());
+  });
 
   const rowData = project.data.map((entry) => {
     const status = entry.RDID === 1 ? 'Complete' : (entry.RDID === 2 ? 'Terminate' : 'Overquota');
@@ -117,20 +114,12 @@ async function populateProjectList() {
   }
 }
 
-async function addProjectToFirestore(db, project) {
+async function addProjectToFirestore(project) {
   try {
-    const projectData = {
-      apCode: project.apCode,
-      name: project.name,
-      proj: project.proj,
-    };
-
-    console.log("Adding project data to Firestore:", projectData);
-
-    await addDoc(collection(db, "responses"), projectData);
+    await addDoc(collection(db, "responses"), { ...project, isProject: true });
+    console.log("Project added to Firestore");
   } catch (error) {
-    console.error("Error adding document: ", error);
-    throw error;
+    console.error("Error adding project to Firestore: ", error);
   }
 }
 
