@@ -3,7 +3,6 @@ import {
   populateProjectList,
   openProject,
   downloadTableAsExcel,
-  generateRandomID,
 } from "./projects.js";
 
 window.onload = async () => {
