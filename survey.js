@@ -28,18 +28,6 @@ function getQueryParams() {
   };
 }
 
-function displaySurveyMessage() {
-  const { RDID } = getQueryParams();
-  const urlParams = new URLSearchParams(window.location.search);
-  const proj = urlParams.get('proj');
-  const RDID = urlParams.get('RDID').toString();
-  const UID = urlParams.get('UID').toString();
-
-  saveResponseData(proj, parseInt(RDID), UID);
-
-  const surveyMessage = document.getElementById('survey-message');
-  const db = getFirestore(app);
-
 async function saveResponseData(proj, RDID, UID) {
   const response = {
     proj,
@@ -56,13 +44,8 @@ async function saveResponseData(proj, RDID, UID) {
   }
 }
 
-
 function displaySurveyMessage() {
-  const { RDID } = getQueryParams();
-  const urlParams = new URLSearchParams(window.location.search);
-  const proj = urlParams.get('proj');
-  const RDID = urlParams.get('RDID');
-  const UID = urlParams.get('UID');
+  const { proj, RDID, UID } = getQueryParams();
 
   saveResponseData(proj, parseInt(RDID), UID);
 
@@ -87,4 +70,3 @@ function displaySurveyMessage() {
 }
 
 window.onload = displaySurveyMessage;
-
