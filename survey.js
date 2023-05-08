@@ -1,4 +1,21 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDGB0yVOkD8abI9kmnMkbNEOdPUCnY3FIo",
+  authDomain: "atheneumsurveys.firebaseapp.com",
+  projectId: "atheneumsurveys",
+  storageBucket: "atheneumsurveys.appspot.com",
+  messagingSenderId: "291426672334",
+  appId: "1:291426672334:web:9c52ce815fc184091cfa9f",
+  measurementId: "G-8MPDN9YZLF"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 function getQueryParams() {
   const queryString = window.location.search;
@@ -8,6 +25,33 @@ function getQueryParams() {
     RDID: urlParams.get('RDID'),
     UID: urlParams.get('UID')
   };
+}
+
+function displaySurveyMessage() {
+  const { RDID } = getQueryParams();
+  const urlParams = new URLSearchParams(window.location.search);
+  const proj = urlParams.get('proj');
+  const RDID = urlParams.get('RDID');
+  const UID = urlParams.get('UID');
+
+  saveResponseData(proj, parseInt(RDID), UID);
+
+  const surveyMessage = document.getElementById('survey-message');
+  const db = getFirestore(app);
+
+async function saveResponseData(proj, RDID, UID) {
+  const responseCollection = collection(db, "responses");
+
+  try {
+    await addDoc(responseCollection, {
+      proj,
+      UID,
+      RDID,
+      Date: new Date().toISOString(),
+    });
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
 }
 
 function displaySurveyMessage() {
@@ -41,20 +85,3 @@ function displaySurveyMessage() {
 
 window.onload = displaySurveyMessage;
 
-async function saveResponseData(proj, RDID, UID) {
-  const db = getFirestore();
-
-  const response = {
-    proj,
-    UID,
-    RDID,
-    Date: new Date().toISOString()
-  };
-
-  try {
-    const docRef = await addDoc(collection(db, "responses"), response);
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
-}
