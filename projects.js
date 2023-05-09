@@ -125,6 +125,54 @@ async function removeProject(index) {
   }
 }
 
+function showConfirmationModal(onYes, onCancel) {
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  modal.style.display = 'flex';
+  modal.style.justifyContent = 'center';
+  modal.style.alignItems = 'center';
+  modal.style.zIndex = '1000';
+
+  const modalContent = document.createElement('div');
+  modalContent.style.backgroundColor = '#fff';
+  modalContent.style.padding = '20px';
+  modalContent.style.borderRadius = '4px';
+
+  const message = document.createElement('p');
+  message.textContent = 'Are you sure you want to remove this project?';
+  modalContent.appendChild(message);
+
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.style.display = 'flex';
+  buttonsContainer.style.justifyContent = 'space-between';
+  buttonsContainer.style.width = '150px';
+
+  const yesButton = document.createElement('button');
+  yesButton.textContent = 'Yes';
+  yesButton.addEventListener('click', () => {
+    onYes();
+    document.body.removeChild(modal);
+  });
+  buttonsContainer.appendChild(yesButton);
+
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+  cancelButton.addEventListener('click', () => {
+    onCancel();
+    document.body.removeChild(modal);
+  });
+  buttonsContainer.appendChild(cancelButton);
+
+  modalContent.appendChild(buttonsContainer);
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+}
+
 async function populateProjectList() {
   const projectList = document.getElementById("project-list");
   if (!projectList) {
@@ -137,25 +185,30 @@ async function populateProjectList() {
     const projectsData = await fetchProjectData();
     projectsData.forEach((project, index) => {
       const listItem = document.createElement("li");
-
-      const projectName = document.createElement("span");
-      projectName.textContent = `${project.apCode} - ${project.name}`;
-      projectName.addEventListener("click", () => openProject(index));
-      listItem.appendChild(projectName);
+      listItem.textContent = `${project.apCode} - ${project.name}`;
 
       const removeButton = document.createElement("button");
       removeButton.textContent = "Remove";
-      removeButton.style.marginLeft = "10px";
-      removeButton.addEventListener("click", () => removeProject(index));
-      listItem.appendChild(removeButton);
+      removeButton.addEventListener("click", () => {
+        showConfirmationModal(
+          async () => {
+            await removeProject(index);
+            await populateProjectList();
+          },
+          () => {
+            console.log("Cancelled");
+          }
+        );
+      });
 
+      listItem.appendChild(removeButton);
+      listItem.addEventListener("click", () => openProject(index));
       projectList.appendChild(listItem);
     });
   } catch (error) {
     console.error("Error fetching projects:", error);
   }
 }
-
 
 async function updateTable(index) {
   const projectsData = await fetchProjectData();
