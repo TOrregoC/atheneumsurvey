@@ -176,9 +176,9 @@ function calculateIncidenceRate(responsesData) {
   let terminates = 0;
 
   responsesData.forEach((entry) => {
-    if (entry.RDID === '1') {
+    if (entry.RDID === 1) {
       completes++;
-    } else if (entry.RDID === '2') {
+    } else if (entry.RDID === 2) {
       terminates++;
     }
   });
