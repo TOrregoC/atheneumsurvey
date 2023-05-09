@@ -72,11 +72,11 @@ async function openProject(index) {
       <p>Complete: ${buildURL(project.proj, 1, '')}UID_VALUE</p>
       <p>Terminate: ${buildURL(project.proj, 2, '')}UID_VALUE</p>
       <p>Overquota: ${buildURL(project.proj, 3, '')}UID_VALUE</p>
-      
-      <p style="text-align: left; font-weight: bold; margin-left: 20px; margin-top: 20px;">IR = ${incidenceRatePercentage}%</p>
 
-      <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-        <button id="download-table" style="margin-right: 10px;">Download Table</button>
+      <p style="text-align: left; font-weight: bold; margin-top: 20px; margin-left: 20px;" class="ir-formula">IR = ${incidenceRatePercentage}%</p>
+
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin-bottom: 20px;">
+        <button id="download-table" style="margin-right: 20px;">Download Table</button>
         <button id="update-table">Update Table</button>
       </div>
       <div style="overflow-x:auto;">
