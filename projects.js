@@ -235,7 +235,14 @@ async function updateTable(index) {
 
   const tbody = document.querySelector('#project-details tbody');
   tbody.innerHTML = rowData;
+
+  // Update the IR formula element
+  const incidenceRate = calculateIncidenceRate(responsesData);
+  const incidenceRatePercentage = (incidenceRate * 100).toFixed(2);
+  const irFormulaElement = document.querySelector('.ir-formula');
+  irFormulaElement.textContent = `IR = ${incidenceRatePercentage}%`;
 }
+
 
 async function addProjectToFirestore(db, project) {
   try {
