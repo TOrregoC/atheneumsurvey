@@ -73,10 +73,10 @@ async function openProject(index) {
       <p>Terminate: ${buildURL(project.proj, 2, '')}UID_VALUE</p>
       <p>Overquota: ${buildURL(project.proj, 3, '')}UID_VALUE</p>
       
-      <p style="text-align: left;">IR = ${incidenceRatePercentage}%</p>
+      <p style="text-align: left; font-weight: bold; margin-left: 20px; margin-top: 20px;">IR = ${incidenceRatePercentage}%</p>
 
-      <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px;">
-        <button id="download-table" style="margin-bottom: 20px;">Download Table</button>
+      <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+        <button id="download-table" style="margin-right: 10px;">Download Table</button>
         <button id="update-table">Update Table</button>
       </div>
       <div style="overflow-x:auto;">
@@ -111,7 +111,19 @@ async function openProject(index) {
   
 }
 
+async function removeProject(index) {
+  const projectsData = await fetchProjectData();
+  const project = projectsData[index];
 
+  try {
+    const docRef = doc(db, "projects", project.id);
+    await deleteDoc(docRef);
+    console.log("Project deleted from Firestore");
+    await populateProjectList(); // Refresh the project list
+  } catch (error) {
+    console.error("Error deleting project from Firestore: ", error);
+  }
+}
 
 async function populateProjectList() {
   const projectList = document.getElementById("project-list");
@@ -125,14 +137,25 @@ async function populateProjectList() {
     const projectsData = await fetchProjectData();
     projectsData.forEach((project, index) => {
       const listItem = document.createElement("li");
-      listItem.textContent = `${project.apCode} - ${project.name}`;
-      listItem.addEventListener("click", () => openProject(index));
+
+      const projectName = document.createElement("span");
+      projectName.textContent = `${project.apCode} - ${project.name}`;
+      projectName.addEventListener("click", () => openProject(index));
+      listItem.appendChild(projectName);
+
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.style.marginLeft = "10px";
+      removeButton.addEventListener("click", () => removeProject(index));
+      listItem.appendChild(removeButton);
+
       projectList.appendChild(listItem);
     });
   } catch (error) {
     console.error("Error fetching projects:", error);
   }
 }
+
 
 async function updateTable(index) {
   const projectsData = await fetchProjectData();
