@@ -79,7 +79,7 @@ async function openProject(index) {
         <button id="download-table" style="margin-right: 20px;">Download Table</button>
         <button id="update-table">Update Table</button>
       </div>
-      <div style="overflow-x:auto; margin-left: 10px;">
+      <div style="overflow-x:auto; margin-left: 10px; text-align: center;">
         <table id="project-details">
             <thead>
                 <tr>
