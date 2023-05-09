@@ -104,6 +104,7 @@ async function openProject(index) {
   const updateButton = document.getElementById('update-table');
   updateButton.addEventListener('click', async (event) => {
     event.preventDefault();
+    await updateTable(index);
   });
   
   await updateTable(index);
