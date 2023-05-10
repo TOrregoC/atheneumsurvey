@@ -109,7 +109,8 @@ async function openProject(index) {
   const incidenceRate = calculateIncidenceRate(responsesData);
   const incidenceRatePercentage = (incidenceRate * 100).toFixed(2);
 
-  rightColumn.innerHTML = `
+  const projectDetailsDiv = document.getElementById("project-details");
+  projectDetailsDiv.innerHTML = `
       <h3>Here are your redirects</h3>
       <p>Complete: ${buildURL(project.proj, 1, '')}UID_VALUE</p>
       <p>Terminate: ${buildURL(project.proj, 2, '')}UID_VALUE</p>
