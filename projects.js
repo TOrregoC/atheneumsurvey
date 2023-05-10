@@ -44,6 +44,48 @@ function downloadTableAsExcel(tableId, filename) {
   XLSX.writeFile(wb, filename, { bookType: "xlsx", type: "binary" });
 }
 
+async function searchProjects(searchText) {
+  const projectList = document.getElementById("project-list");
+  if (!projectList) {
+    console.error("project-list element not found");
+    return;
+  }
+  projectList.innerHTML = "";
+
+  try {
+    const projectsData = await fetchProjectData();
+    const filteredProjects = projectsData.filter((project) =>
+      project.name.toLowerCase().includes(searchText.toLowerCase()) || project.apCode.toLowerCase().includes(searchText.toLowerCase())
+    );
+    filteredProjects.forEach((project, index) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${project.apCode} - ${project.name}`;
+      listItem.addEventListener("click", () => openProject(index));
+      
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        const confirmDeletion = confirm("Are you sure you want to remove this project?");
+        if (confirmDeletion) {
+          await removeProject(project.id);
+          listItem.remove();
+        }
+      });
+
+      listItem.appendChild(removeButton);
+      projectList.appendChild(listItem);
+    });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+  }
+}
+
+document.getElementById("search-button").addEventListener("click", () => {
+  const searchText = document.getElementById("search-input").value;
+  searchProjects(searchText);
+});
+
 async function openProject(index) {
   const projectsData = await fetchProjectData();
   const project = projectsData[index];
