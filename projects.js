@@ -149,6 +149,22 @@ async function openProject(index) {
     await updateTable(index);
   });
   
+  const removeUIDsButton = document.getElementById("remove-uids-button");
+  removeUIDsButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const textarea = document.getElementById("remove-uids-textarea");
+    const uidList = textarea.value.split("\n");
+
+    // Remove UIDs from Firestore
+    await removeMultipleUIDs(project.proj, uidList);
+
+    // Update the table
+    await updateTable(index);
+
+    // Clear the textarea
+    textarea.value = "";
+  });
+
   await updateTable(index);
   
 }
@@ -285,6 +301,20 @@ async function updateTable(index) {
   irFormulaElement.textContent = `IR = ${incidenceRatePercentage}%`;
 }
 
+async function removeMultipleUIDs(projectId, uidList) {
+  const responsesRef = collection(db, "responses", projectId, "responsesData");
+  const batch = writeBatch(db);
+
+  for (const uid of uidList) {
+    const querySnapshot = await getDocs(query(responsesRef, where("UID", "==", uid)));
+
+    querySnapshot.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+  }
+
+  await batch.commit();
+}
 
 async function addProjectToFirestore(db, project) {
   try {
