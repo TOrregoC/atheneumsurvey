@@ -81,9 +81,14 @@ async function searchProjects(searchText) {
   }
 }
 
-document.getElementById("search-button").addEventListener("click", () => {
-  const searchText = document.getElementById("search-input").value;
-  searchProjects(searchText);
+document.addEventListener('DOMContentLoaded', (event) => {
+    let searchButton = document.getElementById("search-button");
+    if(searchButton){
+      searchButton.addEventListener("click", () => {
+        const searchText = document.getElementById("search-input").value;
+        searchProjects(searchText);
+      });
+    }
 });
 
 async function openProject(index) {
